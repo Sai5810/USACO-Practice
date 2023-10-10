@@ -1,0 +1,39 @@
+fin = open ('milk2.in', 'r')
+fout = open ('milk2.out', 'w')
+farmers=fin.read().split()
+milkTime, idle,firstEnding=0,0,0
+for i in range(int(farmers[0])*2+1):
+   farmers[i]=int(farmers[i])
+starts, sortFarm=[], []
+for i in range(1,farmers[0]*2,2):
+   starts.append(farmers[i])
+starts.sort()
+for i in range(len(starts)):
+   sortFarm.append(starts[i])
+   if i==0:
+      sortFarm.append(farmers[farmers.index(starts[i])+1])
+   else:
+      sortFarm.append(farmers[farmers.index(starts[i],i*2-1)+1])
+if farmers[0]==1:
+   milkTime=farmers[2]-farmers[1]
+else:
+   s1, e1, s2, e2=sortFarm[0],sortFarm[1],sortFarm[2],sortFarm[3]
+   for i in range(0,farmers[0]*2-2,2):
+      s2, e2=sortFarm[i+2],sortFarm[i+3]
+      if s2<=e1 and s2>=s1 and e2>e1:
+         if e2-s1>milkTime: #check if cur list is combined with another
+            milkTime=e2-s1
+         e1=sortFarm[i+3]
+      elif s2<=e1 and s2>=s1 and e2<e1:
+         if e1-s1>milkTime: 
+            milkTime=e1-s1
+      else: #if not log time, move to next list, log time between
+         s1=sortFarm[i]
+         e1=sortFarm[i+1]
+         firstEnding=1
+         if e1-s1>milkTime: 
+            milkTime=e1-s1
+         elif firstEnding==1 and s2-e1>idle:
+            idle=s2-e1
+fout.write (str(milkTime) + ' ' + str(idle) + '\n')
+fout.close()

@@ -1,0 +1,26 @@
+fin = open ('friday.in', 'r')
+fout = open ('friday.out', 'w')
+years=int(fin.readline())
+def fri13(moDays):
+   global dotw, fridays
+   day=1
+   for k in range(moDays):
+      day+=1
+      dotw+=1
+      if dotw==7: dotw=0
+      if day==13: fridays[dotw]+=1
+dotw=0
+fridays=[0,0,0,0,0,0,0]
+for i in range(years):
+   for j in range (1,13):
+      if j==2:
+         if (1900+i)%400==0 or ((1900+i)%4==0 and (1900+i)%100!=0):
+            fri13(29)
+         else:
+            fri13(28)
+      elif j==9 or j==4 or j==6 or j==11:
+         fri13(30)
+      else:
+         fri13(31)
+fout.write (str(fridays[5]) + ' ' +str(fridays[6]) + ' ' +str(fridays[0]) + ' ' +str(fridays[1]) + ' ' +str(fridays[2]) + ' ' +str(fridays[3]) + ' ' +str(fridays[4]) + '\n')
+fout.close()

@@ -1,0 +1,19 @@
+fin = open ('gift1.in', 'r')
+fout = open ('gift1.out', 'w')
+numPeople=int(fin.readline())
+people, money=[],[]
+for i in range(numPeople):
+   people.append(fin.readline())
+   money.append(0)
+for j in range(numPeople):
+   giver=fin.readline()
+   curMoney=fin.readline().split(" ")
+   for i in range(2):
+      curMoney[i]=int(curMoney[i])
+   if curMoney[1]!=0:
+      money[people.index(giver)]+=(curMoney[0]%curMoney[1])-curMoney[0]
+      for i in range(curMoney[1]):
+         money[people.index(fin.readline())]+=int(curMoney[0]/curMoney[1])
+for i in range(numPeople):
+   fout.write (people[i].rstrip('\n') + " " + str(money[i]) + '\n')
+fout.close()
